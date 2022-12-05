@@ -1,7 +1,7 @@
-import { Action, ActionPanel, Grid } from "@raycast/api";
-import { useState } from "react";
-
+import { Action, ActionPanel, Grid, Icon } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
+import { useEffect, useState } from "react";
+import { copyFileToClipboard } from "./utils";
 
 interface Image {
   id: string;
@@ -39,7 +39,18 @@ export default function Command() {
             content={item.src}
             actions={
               <ActionPanel>
-                <Action title="Select" onAction={() => setSearchText(item.prompt)} />
+                <Action
+                  icon={Icon.MagnifyingGlass}
+                  title="Search based on this prompt"
+                  onAction={() => setSearchText(item.prompt)}
+                />
+                <Action
+                  title="Copy to Clipboard"
+                  icon={Icon.Clipboard}
+                  shortcut={{ modifiers: ["cmd", "opt"], key: "c" }}
+                  onAction={() => copyFileToClipboard(item.src, item.id)}
+                />
+                <Action.OpenInBrowser title="Open in browser" url={item.src} />
               </ActionPanel>
             }
           />
